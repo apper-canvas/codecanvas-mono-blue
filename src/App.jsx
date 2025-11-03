@@ -10,6 +10,7 @@ export const AuthContext = createContext(null)
 
 function AuthProvider({ children }) {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [isInitialized, setIsInitialized] = useState(false)
   
   // Initialize ApperUI once when the app loads
@@ -36,41 +37,41 @@ function AuthProvider({ children }) {
                            currentPath.includes('/callback') || currentPath.includes('/error') || 
                            currentPath.includes('/prompt-password') || currentPath.includes('/reset-password')
         
-        if (user) {
+if (user) {
           // User is authenticated
           if (redirectPath) {
-            window.location.href = redirectPath
+            navigate(redirectPath)
           } else if (!isAuthPage) {
             if (!currentPath.includes('/login') && !currentPath.includes('/signup')) {
-              window.location.href = currentPath
+              navigate(currentPath)
             } else {
-              window.location.href = '/'
+              navigate('/')
             }
           } else {
-            window.location.href = '/'
+            navigate('/')
           }
           // Store user information in Redux
           dispatch(setUser(JSON.parse(JSON.stringify(user))))
         } else {
           // User is not authenticated
-          if (!isAuthPage) {
-            window.location.href = currentPath.includes('/signup')
+if (!isAuthPage) {
+            navigate(currentPath.includes('/signup')
               ? `/signup?redirect=${currentPath}`
               : currentPath.includes('/login')
               ? `/login?redirect=${currentPath}`
-              : '/login'
+              : '/login')
           } else if (redirectPath) {
             if (
               !['error', 'signup', 'login', 'callback', 'prompt-password', 'reset-password'].some((path) => currentPath.includes(path))
             ) {
-              window.location.href = `/login?redirect=${redirectPath}`
+              navigate(`/login?redirect=${redirectPath}`)
             } else {
-              window.location.href = currentPath
+              navigate(currentPath)
             }
           } else if (isAuthPage) {
-            window.location.href = currentPath
+            navigate(currentPath)
           } else {
-            window.location.href = '/login'
+            navigate('/login')
           }
           dispatch(clearUser())
         }
