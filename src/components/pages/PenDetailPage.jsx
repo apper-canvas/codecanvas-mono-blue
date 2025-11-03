@@ -114,7 +114,7 @@ const { id } = useParams();
               
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-slate-200 mb-2">
-                  {pen.title}
+{pen.title}
                 </h1>
                 <div className="flex items-center gap-4 flex-wrap">
                   <div className="flex items-center gap-2">
@@ -235,7 +235,7 @@ const { id } = useParams();
                     srcDoc={`
                       <!DOCTYPE html>
                       <html>
-                        <head>
+<head>
                           <style>${pen.css}</style>
                         </head>
                         <body>
@@ -263,7 +263,7 @@ const { id } = useParams();
                 {/* HTML */}
                 {pen.html && (
                   <CodePanel
-                    title="HTML"
+title="HTML"
                     code={pen.html}
                     language="html"
                     readOnly={true}
@@ -315,7 +315,7 @@ const { id } = useParams();
                     <!DOCTYPE html>
                     <html>
                       <head>
-                        <style>${pen.css}</style>
+<style>${pen.css}</style>
                       </head>
                       <body>
                         ${pen.html}

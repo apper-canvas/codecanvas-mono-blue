@@ -1,11 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useContext } from "react";
+import { useSelector } from "react-redux";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
 import ApperIcon from "@/components/ApperIcon";
+import { AuthContext } from "../../App";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
 
   const handleSearch = (query) => {
     if (query.trim()) {
@@ -56,12 +61,34 @@ const Header = () => {
           </div>
 
           {/* CTA Button */}
-          <Link to="/editor">
+<Link to="/editor">
             <Button className="flex items-center gap-2">
               <ApperIcon name="Plus" className="w-4 h-4" />
               Create Pen
             </Button>
           </Link>
+          
+          {isAuthenticated && (
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center">
+                  <span className="text-white text-sm font-medium">
+                    {user?.firstName?.[0] || user?.emailAddress?.[0] || 'U'}
+                  </span>
+                </div>
+                <span className="text-slate-300 text-sm">
+                  {user?.firstName || user?.emailAddress || 'User'}
+                </span>
+              </div>
+              <Button 
+                onClick={logout}
+                className="flex items-center gap-2 bg-slate-600 hover:bg-slate-700 text-slate-200"
+              >
+                <ApperIcon name="LogOut" className="w-4 h-4" />
+                Logout
+              </Button>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <button className="md:hidden text-slate-400 hover:text-white">
